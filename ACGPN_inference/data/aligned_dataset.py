@@ -193,7 +193,8 @@ class AlignedDataset(BaseDataset):
                 pose_draw.rectangle((pointx-r, pointy-r, pointx+r, pointy+r), 'white', 'white')
             one_map = transform_B(one_map.convert('RGB'))
             pose_map[i] = one_map[0]
-        pose_draw.show() #---debug
+        im_pose.show() #---debug
+        one_map.show() #---debug
         P_tensor=pose_map
         if self.opt.isTrain:
             input_dict = { 'label': A_tensor, 'label_ref': AR_tensor, 'image': B_tensor, 'image_ref': BR_tensor, 'path': A_path, 'path_ref': AR_path,
