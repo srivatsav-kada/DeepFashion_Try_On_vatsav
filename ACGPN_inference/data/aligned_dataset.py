@@ -157,7 +157,7 @@ class AlignedDataset(BaseDataset):
         ### input_C (color)
         # print(self.C_paths)
         test_color_name = '016254_1.jpg'
-        test_color_id   = self.C_paths.index(os.path.join(opt.dataroot, opt.phase+'_color/' + test_color_name))
+        test_color_id   = self.C_paths.index(os.path.join(self.root, 'test_color', test_color_name))
         print('test_color_id:', test_color_id) #---debug
         C_path = self.C_paths[test]
         C = Image.open(C_path).convert('RGB')
