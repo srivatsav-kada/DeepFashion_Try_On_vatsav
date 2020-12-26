@@ -156,6 +156,9 @@ class AlignedDataset(BaseDataset):
 
         ### input_C (color)
         # print(self.C_paths)
+        test_color_name = '016254_1.jpg'
+        test_color_id   = self.C_paths.index(os.path.join(opt.dataroot, opt.phase+'_color/' + test_color_name)
+        print('test_color_id:', test_color_id) #---debug
         C_path = self.C_paths[test]
         C = Image.open(C_path).convert('RGB')
         C_tensor = transform_B(C)
@@ -170,7 +173,6 @@ class AlignedDataset(BaseDataset):
 
         ##Pose
         pose_name =B_path.replace('.jpg', '_keypoints.json').replace('test_img','test_pose')
-        print('pose_name:',pose_name) #---debug
         with open(osp.join(pose_name), 'r') as f:
             pose_label = json.load(f)
             pose_data = pose_label['people'][0]['pose_keypoints']
@@ -191,10 +193,10 @@ class AlignedDataset(BaseDataset):
             if pointx > 1 and pointy > 1:
                 draw.rectangle((pointx-r, pointy-r, pointx+r, pointy+r), 'white', 'white')
                 pose_draw.rectangle((pointx-r, pointy-r, pointx+r, pointy+r), 'white', 'white')
+            im_pose.show()
+            one_map.show()
             one_map = transform_B(one_map.convert('RGB'))
             pose_map[i] = one_map[0]
-        im_pose.show() #---debug
-        one_map.show() #---debug
         P_tensor=pose_map
         if self.opt.isTrain:
             input_dict = { 'label': A_tensor, 'label_ref': AR_tensor, 'image': B_tensor, 'image_ref': BR_tensor, 'path': A_path, 'path_ref': AR_path,
