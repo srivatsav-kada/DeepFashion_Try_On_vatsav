@@ -11,7 +11,8 @@ from PIL import ImageDraw
 class AlignedDataset(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
-        self.root = opt.dataroot    
+        self.root = opt.dataroot
+        self.color_name = opt.color_name
         self.diction={}
         ### input A (label maps)
         if opt.isTrain or opt.use_encoded_image:
@@ -106,9 +107,7 @@ class AlignedDataset(BaseDataset):
         #     if '000386' in x :
         #         index=k
         #         break
-        test=np.random.randint(2032)
-        print('test no.:', test)
-        
+        test=np.random.randint(2032)    
         # for k, s in enumerate(self.B_paths):
         #    if '006581' in s:
         #        test = k
@@ -156,9 +155,9 @@ class AlignedDataset(BaseDataset):
 
         ### input_C (color)
         # print(self.C_paths)
-        test_color_name = '016254_1.jpg'
-        test_color_id   = self.C_paths.index(os.path.join(self.root, 'test_color', test_color_name))
-        print('test_color_id:', test_color_id) #---debug
+        
+        test = self.C_paths.index(os.path.join(self.root, 'test_color', self.color_name)) # add color_name to set test (color index)
+        
         C_path = self.C_paths[test]
         C = Image.open(C_path).convert('RGB')
         C_tensor = transform_B(C)
@@ -193,8 +192,8 @@ class AlignedDataset(BaseDataset):
             if pointx > 1 and pointy > 1:
                 draw.rectangle((pointx-r, pointy-r, pointx+r, pointy+r), 'white', 'white')
                 pose_draw.rectangle((pointx-r, pointy-r, pointx+r, pointy+r), 'white', 'white')
-            im_pose.show()
-            one_map.show()
+            im_pose.save('im_pose.jpg')
+            one_map.save('one_map.jpg')
             one_map = transform_B(one_map.convert('RGB'))
             pose_map[i] = one_map[0]
         P_tensor=pose_map
