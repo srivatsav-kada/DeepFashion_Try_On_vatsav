@@ -101,7 +101,7 @@ for epoch in range(start_epoch, opt.niter + opt.niter_decay + 1):
     epoch_start_time = time.time()
     if epoch != start_epoch:
         epoch_iter = epoch_iter % dataset_size
-	print("epoch:', epoch)
+	print('epoch:', epoch)
     for i, data in enumerate(dataset, start=epoch_iter):
 
         iter_start_time = time.time()
