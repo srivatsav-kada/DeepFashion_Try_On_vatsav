@@ -12,7 +12,7 @@ class AlignedDataset(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
         self.root = opt.dataroot
-        self.color_name = opt.color_name
+        self.color_name = opt.color_name ### add color_name setting
         self.diction={}
         ### input A (label maps)
         if opt.isTrain or opt.use_encoded_image:
@@ -156,7 +156,8 @@ class AlignedDataset(BaseDataset):
         ### input_C (color)
         # print(self.C_paths)
         
-        test = self.C_paths.index(os.path.join(self.root, 'test_color', self.color_name)) # add color_name to set test (color index)
+        test = self.C_paths.index(os.path.join(self.root, 'test_color', self.color_name)) # add color_name setting
+        print(self.color_name+': index =', test) # print out color_name index
         
         C_path = self.C_paths[test]
         C = Image.open(C_path).convert('RGB')
