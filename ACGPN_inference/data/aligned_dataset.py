@@ -170,6 +170,7 @@ class AlignedDataset(BaseDataset):
 
         ##Pose
         pose_name =B_path.replace('.jpg', '_keypoints.json').replace('test_img','test_pose')
+        print('pose_name:',pose_name) #---debug
         with open(osp.join(pose_name), 'r') as f:
             pose_label = json.load(f)
             pose_data = pose_label['people'][0]['pose_keypoints']
@@ -177,6 +178,7 @@ class AlignedDataset(BaseDataset):
             pose_data = pose_data.reshape((-1,3))
 
         point_num = pose_data.shape[0]
+        print('point_num:',point_num) #---debug
         pose_map = torch.zeros(point_num, self.fine_height, self.fine_width)
         r = self.radius
         im_pose = Image.new('L', (self.fine_width, self.fine_height))
@@ -191,6 +193,7 @@ class AlignedDataset(BaseDataset):
                 pose_draw.rectangle((pointx-r, pointy-r, pointx+r, pointy+r), 'white', 'white')
             one_map = transform_B(one_map.convert('RGB'))
             pose_map[i] = one_map[0]
+        pose_draw.show() #---debug
         P_tensor=pose_map
         if self.opt.isTrain:
             input_dict = { 'label': A_tensor, 'label_ref': AR_tensor, 'image': B_tensor, 'image_ref': BR_tensor, 'path': A_path, 'path_ref': AR_path,
