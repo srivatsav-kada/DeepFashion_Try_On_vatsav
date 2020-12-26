@@ -107,6 +107,8 @@ class AlignedDataset(BaseDataset):
         #         index=k
         #         break
         test=np.random.randint(2032)
+        print('test no.:', test)
+        
         # for k, s in enumerate(self.B_paths):
         #    if '006581' in s:
         #        test = k
@@ -115,8 +117,6 @@ class AlignedDataset(BaseDataset):
         AR_path = self.AR_paths[index]
         A = Image.open(A_path).convert('L')
         AR = Image.open(AR_path).convert('L')
-
-
   
         params = get_params(self.opt, A.size)
         if self.opt.label_nc == 0:
@@ -133,7 +133,6 @@ class AlignedDataset(BaseDataset):
 
         B_path = self.B_paths[index]
         name=B_path.split('/')[-1]
-
 
         BR_path = self.BR_paths[index]
         B = Image.open(B_path).convert('RGB')
@@ -160,13 +159,14 @@ class AlignedDataset(BaseDataset):
         C_path = self.C_paths[test]
         C = Image.open(C_path).convert('RGB')
         C_tensor = transform_B(C)
-
+        print('Color path:', C_path)
+        
         ##Edge
         E_path = self.E_paths[test]
         # print(E_path)
         E = Image.open(E_path).convert('L')
         E_tensor = transform_A(E)
-
+        print('Edge  path:', E_path)
 
         ##Pose
         pose_name =B_path.replace('.jpg', '_keypoints.json').replace('test_img','test_pose')
